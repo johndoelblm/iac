@@ -175,7 +175,7 @@ resource "aws_iam_role_policy_attachment" "example-AmazonEC2ContainerRegistryRea
 resource "aws_eks_node_group" "eks_nodegroup" {
   cluster_name    = aws_eks_cluster.eks_cluster.name
   node_group_name = "eks_nodegroup"
-  node_role_arn   = aws_iam_role.aws_iam_role.arn
+  node_role_arn   = aws_iam_role.aws_iam_role_nodegroup.arn
   subnet_ids      = aws_subnet.eks_subnet1[*].id
 
   scaling_config {
