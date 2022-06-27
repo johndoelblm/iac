@@ -98,9 +98,9 @@ resource aws_subnet "eks_subnet2" {
     git_commit                                       = "6e62522d2ab8f63740e53752b84a6e99cd65696a"
     git_file                                         = "terraform/aws/eks.tf"
     git_last_modified_at                             = "2021-05-02 11:16:31"
-    git_last_modified_by                             = "nimrodkor@gmail.com"
+    git_last_modified_by                             = "joe@gmail.com"
     git_modifiers                                    = "nimrodkor"
-    git_org                                          = "bridgecrewio"
+    git_org                                          = "goatie"
     git_repo                                         = "terragoat"
     "kubernetes.io/cluster/$${local.eks_name.value}" = "shared"
     yor_trace                                        = "9ce04af2-5321-4e6c-a262-e4d7c1f69525"
@@ -138,6 +138,31 @@ resource aws_eks_cluster "eks_cluster" {
     yor_trace            = "7fa14261-c18d-4fa2-aec4-746f6e64d2d3"
   }
 }
+
+resource "aws_eks_node_group" "eks_nodegroup" {
+  cluster_name    = aws_eks_cluster.eks_cluster.name
+  node_group_name = "eks_nodegroup"
+  node_role_arn   = "${aws_iam_role.iam_for_eks.arn}"
+  subnet_ids      = aws_subnet.eks_subnet1[*].id
+
+  scaling_config {
+    desired_size = 1
+    max_size     = 1
+    min_size     = 1
+  }
+
+  update_config {
+    max_unavailable = 2
+  }
+
+  # Ensure that IAM Role permissions are created before and deleted after EKS Node Group handling.
+  # Otherwise, EKS will not be able to properly delete EC2 Instances and Elastic Network Interfaces.
+  depends_on = [
+    aws_iam_role_policy_attachment.policy_attachment-AmazonEKSClusterPolicy,
+    aws_iam_role_policy_attachment.policy_attachment-AmazonEKSServicePolicy,
+  ]
+}
+
 
 output "endpoint" {
   value = "${aws_eks_cluster.eks_cluster.endpoint}"
