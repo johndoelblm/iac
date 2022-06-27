@@ -1,7 +1,7 @@
 resource "aws_rds_cluster" "app1-rds-cluster" {
   cluster_identifier      = "app1-rds-cluster"
   # allocated_storage       = 10
-  backup_retention_period = 0
+  backup_retention_period = 1
   master_username         = "testtf"
   master_password         = "AWSTEST112233445566778899"
   db_subnet_group_name    = aws_db_subnet_group.default.name
