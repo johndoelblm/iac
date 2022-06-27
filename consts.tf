@@ -33,11 +33,11 @@ variable ami {
 variable "dbname" {
   type        = string
   description = "Name of the Database"
-  default     = "db1"
+  default     = "database1"
 }
 
 variable "password" {
   type        = string
   description = "Database password"
-  default     = "Aa1234321Bb"
+  default     = "Aa1234321BbThereisapwdhere"
 }
