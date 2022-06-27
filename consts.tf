@@ -1,4 +1,4 @@
-##
+##-input=false -no-color -compact-warnings -lock-timeout=300s -parallelism=20 $(System.DefaultWorkingDirectory)/iac/$(System.JobDisplayName)-iac.plan
 
 data "aws_caller_identity" "current" {}
 
