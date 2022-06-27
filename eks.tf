@@ -10,7 +10,7 @@ data aws_iam_policy_document "iam_policy_eks" {
     actions = ["sts:AssumeRole"]
     principals {
       type        = "Service"
-      identifiers = ["eks.amazonaws.com"]
+      identifiers = ["eks.amazonaws.com", "ec2.amazonaws.com"]
     }
   }
 }
